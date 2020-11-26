@@ -4,18 +4,22 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 
-import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import br.com.cod3r.calc.modelo.Memoria;
+import br.com.cod3r.calc.modelo.MemoriaObservador;
+
 @SuppressWarnings("serial")
-public class Display extends JPanel {
+public class Display extends JPanel  implements MemoriaObservador{
 	
 	private final JLabel label;
 	
 	public Display() {
+		Memoria.getInstancia().adicionarObservador(this);
+		
 		setBackground(new Color(46, 49, 50));
-		label = new JLabel("1234,46");
+		label = new JLabel(Memoria.getInstancia().getTextoAtual());
 		label.setForeground(Color.WHITE);
 		//label.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		label.setFont(new Font("Courier", Font.PLAIN, 30));
@@ -23,5 +27,11 @@ public class Display extends JPanel {
 		setLayout(new FlowLayout(FlowLayout.RIGHT, 10, 25));
 		
 		add(label);
+	}
+	
+	@Override
+	public void ValorAlterado(String novoValor) {
+		label.setText(novoValor);
+		
 	}
 }
